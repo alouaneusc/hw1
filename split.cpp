@@ -11,7 +11,7 @@ the function below should be the only one in this file.
 */
 
 #include "split.h"
-// #include <iostream>
+#include <iostream>
 
 /* Add a prototype for a helper function here if you need */
 Node*& helper(Node*& in, Node*& odds, Node*& evens);
@@ -20,10 +20,20 @@ void split(Node*& in, Node*& odds, Node*& evens)
 {
     /* Add code here */
     // WRITE YOUR CODE HERE
+	// in = nullptr;
+	
+	if (!in) {
+		in = nullptr;
+		odds = nullptr;
+		evens = nullptr;
+		return;
+		
+	}
+	else {
+		
 		
   Node* arbitrary = helper(in, odds, evens);
 
-    
 		int r_val = (*arbitrary).value % 2; // check for even values
     if (r_val == 0) 
 		{
@@ -38,6 +48,9 @@ void split(Node*& in, Node*& odds, Node*& evens)
 				// set odds to next value
         odds = arbitrary;
     }
+	}
+
+std::cout <<"Fallen" << std::endl;
 
 }
 
@@ -45,25 +58,28 @@ void split(Node*& in, Node*& odds, Node*& evens)
 Node*& helper(Node*& in, Node*& odds, Node*& evens) 
 
 // WRITE YOUR CODE HERE
-
-
 {
 	// hold val for bit
     Node* hold;
 
     if ((*in).next == nullptr) 
 		{
+    std::cout << "reached base case" << std::endl;
+
         return in;
     }
     else 
 		{
+    std::cout << "reached recursive" << std::endl;
+			
         hold = helper((*in).next, odds, evens);
     }
 
-    // 
     if ((*hold).value % 2 == 0) 
 		{ // evens checker
+
         (*hold).next = evens;
+
         evens = hold;
         return in;
     }
@@ -71,6 +87,7 @@ Node*& helper(Node*& in, Node*& odds, Node*& evens)
     else
 
 		 {// odds checker
+
         (*hold).next = odds;
 
         odds = hold;
