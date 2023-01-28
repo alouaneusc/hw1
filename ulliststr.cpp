@@ -2,6 +2,8 @@
 #include <stdexcept>
 #include "ulliststr.h"
 
+#include <iostream>
+
 ULListStr::ULListStr()
 {
   head_ = NULL;
@@ -71,9 +73,7 @@ void ULListStr::push_back(const std::string &val)
 
 {
     
-    (*this).size_ = (*this).size_ + 1; // increment item amount by 1
-
-
+    this->size_ = this->size_ + 1; // increment item amount by 1
 
     // new item named i formed included 
     Item* i = new Item(); 
@@ -91,19 +91,23 @@ void ULListStr::push_back(const std::string &val)
 
     // check list
     // empty or not
-    if (!((*this).head_ != nullptr)) 
+    if (!(this->head_ != nullptr)) 
     {
 
         // head and tails are to the begging and final items on the list 
         // both are = to i
-        (*this).head_ = i;
+        this->head_ = i;
 
         // set tail_ equal to the new item
-        (*this).tail_ = i;
+        this->tail_ = i;
 
         // final return
         return;
     }
+
+		this->tail_->next = i;
+    i->prev = this->tail_;
+    this->tail_ = i;
 }
 
 
@@ -112,21 +116,22 @@ void ULListStr::push_back(const std::string &val)
 // this function will take fof item from the end of list
 void ULListStr::pop_back() 
 {
+	if (this->size_ <= 0) { return; }
 
-    (*this).size_ = (*this).size_ - 1; // list size is decremented
+    this->size_ -= 1; // list size is decremented
 
-    Item* now = (*this).tail_;
+    Item* now = this->tail_;
   
-    (*this).tail_ = (*this).(*tail_).prev; // change tail value to previous tail
+    this->tail_ = (*this->tail_).prev; // change tail value to previous tail
 
     //search value of tail for null pointer
-    if ((*this).tail_) 
+    if (this->tail_) 
 
     {
-      (*this).(*tail_).next = nullptr;
+      (*this->tail_).next = nullptr;
     } 
 
-    if (!(*this).tail_))
+    if (!(this->tail_))
 // clear 
   { 
    head_ = nullptr;
@@ -141,7 +146,7 @@ void ULListStr::pop_back()
 void ULListStr::push_front(const std::string &val) 
 {
 
-    (*this).size_ = (*this).size_ + 1; // increment this size
+    this->size_ = this->size_ + 1; // increment this size
     Item* i = new Item();
 
     (*i).val[(*i).last] = val;// provide the value to the new object's value
@@ -149,43 +154,46 @@ void ULListStr::push_front(const std::string &val)
 
     // check list
     // empty or not
-    if (!((*this).head_ != nullptr)) 
+    if (!(this->head_ != nullptr)) 
     {
 
         // head and tails are to the begging and final items on the list 
         // both are = to i
-        (*this).head_ = i;
+        this->head_ = i;
 
         // set tail_ equal to the new item
-        (*this).tail_ = i;
+        this->tail_ = i;
 
         // final return
         return;
     }
 
+		this->head_->prev = i;
+    i->next = this->head_;
+    this->head_ = i;
 }
 
 // pop front 
 void ULListStr::pop_front()  // this functions clear item in front
 { 
-    (*this).size_ =  (*this).size_ -1; // decrement
+    this->size_ =  this->size_ -1; // decrement
 
     // locate the head 
     // the one we have now
-    Item* now = (*this).head_;
+    Item* now = this->head_;
 
 
-    (*this).head_ = (*this).(*head_).next; // head gets changed to next value
+    this->head_ = (*this->head_).next; // head gets changed to next value
 
 
   // check for null pointer value on head and tails
-    if (!(*this).tail) 
+    if (!(this->tail_))
     {
       // set tail null pointer to tail
       tail_ = nullptr;
     }
 
-    if (!(*this).head) 
+    if (!(this->head_))
     {
       // set head null pointer to tail
       head_ = nullptr;
@@ -202,7 +210,7 @@ std::string const &ULListStr::front() const
 {
 
     std::string temp;
-    temp = (*this).(*head_).val[(*this).(*head_).first];
+    temp = (*this->head_).val[(*this->head_).first];
 
     //return begining object
     return temp;
@@ -211,13 +219,13 @@ std::string const &ULListStr::front() const
 
 std::string *ULListStr::getValAtLoc(size_t loc) const // location value returner func
 {
-    Item* now = (*this).head_;
+    Item* now = this->head_;
 
-    for (size_t a = 1; a<loc+1; a++) 
+    for (size_t a = 0; a<loc; a++) 
     {
         now = (*now).next; // change value to new next
         // locate if list has more amount than objects present 
-        if (now) 
+        if (!now) 
         {
           return nullptr;
         }
@@ -230,7 +238,7 @@ std::string const &ULListStr::back() const
 {
 
     std::string temp;
-    temp = (*this).(*tail_).val[(*this).(*tail_).last-1];
+    temp = (*this->tail_).val[(*this->tail_).last-1];
 
     // return final object
     return temp;
