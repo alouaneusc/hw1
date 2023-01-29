@@ -11,7 +11,7 @@ the function below should be the only one in this file.
 */
 
 #include "split.h"
-#include <iostream>
+// #include <iostream>
 
 /* Add a prototype for a helper function here if you need */
 Node*& helper(Node*& in, Node*& odds, Node*& evens);
@@ -50,7 +50,7 @@ void split(Node*& in, Node*& odds, Node*& evens)
     }
 	}
 
-std::cout <<"Fallen" << std::endl;
+// std::cout <<"Fallen" << std::endl;
 
 }
 
@@ -64,13 +64,13 @@ Node*& helper(Node*& in, Node*& odds, Node*& evens)
 
     if ((*in).next == nullptr) 
 		{
-    std::cout << "reached base case" << std::endl;
+    // std::cout << "reached base case" << std::endl;
 
         return in;
     }
     else 
 		{
-    std::cout << "reached recursive" << std::endl;
+    // std::cout << "reached recursive" << std::endl;
 			
         hold = helper((*in).next, odds, evens);
     }
